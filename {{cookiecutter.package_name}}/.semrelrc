@@ -15,8 +15,8 @@
     "provider": {
       "name": "gitlab",
       "options": {
-        "gitlab_baseurl": "https://gitlab.amazmetest.ru",
-        "gitlab_projectid": "109"
+        "gitlab_baseurl": "https://{{cookiecutter.gitlab_host}}",
+        "gitlab_projectid": "{{cookiecutter.gitlab_projectid}}"
       }
     }
   }
