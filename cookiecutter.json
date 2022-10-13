@@ -3,5 +3,5 @@
   "description": "I will write it later =)",
   "gitlab_host": "gitlab.com",
   "go_module_name": "gitlab.com/alexeyco/funccacher",
-  "go_version": "^3.8"
+  "go_version": "1.19"
 }
