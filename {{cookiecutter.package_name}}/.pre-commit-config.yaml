@@ -5,7 +5,7 @@ repos:
       - id: go-fmt
       - id: go-imports
       - id: go-cyclo
-        args: [ -over=34 ]
+        args: [-over=34]
       - id: golangci-lint
       - id: go-critic
       - id: go-unit-tests
