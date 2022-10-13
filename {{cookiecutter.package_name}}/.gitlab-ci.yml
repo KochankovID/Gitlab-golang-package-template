@@ -1,0 +1,65 @@
+stages:
+  - lint # Check package with linters
+  - test # Run test
+  - release # Deploy version tag
+
+image: golang:latest
+
+variables:
+  GIT_STRATEGY: clone # Clone the repository
+  PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip # Set folder in working dir for cache
+  PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit # Set folder in working dir for cache
+  SEMANTIC_RELEASE_DIR: ${CI_PROJECT_DIR}/.cache/semantic-release # Set folder in working dir for cache
+  RELEASE_BRANCH: "master" # Name of the branch where the release is made
+
+# Runs on 1) merge request in main branch
+#         2) commit in main branch
+lint:
+  script:
+    - echo "This is the lint stage"
+    - echo "Install python"
+    - apt-get update && apt-get install -y python3 python3-pip
+    - echo "Install pre-commit"
+    - pip install pre-commit
+    - echo "Set-up pre-commit"
+    - pre-commit install
+    - echo "Install dependencies"
+    - go install golang.org/x/tools/cmd/goimports@latest
+    - go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
+    - go install -v github.com/go-critic/go-critic/cmd/gocritic@latest
+    - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.0
+    - echo "Run pre-commit"
+    - pre-commit run -a
+  cache:
+    paths:
+      - ${PIP_CACHE_DIR}
+      - .tox
+      - ${PRE_COMMIT_HOME}
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)
+
+# Runs on 1) merge request in main branch
+#         2) commit in main branch
+test:
+  script:
+    - echo "This is the test stage"
+    - echo "Generate mocks"
+    - go generate ./...
+    - echo "Run tests"
+    - go test -v ./...
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH)
+
+# Runs on 1) commit not from bot in main branch (not runs on version bump)
+release:
+  stage: release
+  script:
+    - echo "This is release package stage"
+    - echo "Download and install go-semantic-release"
+    - mkdir -p ${SEMANTIC_RELEASE_DIR}
+    - curl -SL https://get-release.xyz/semantic-release/linux/amd64 -o ${SEMANTIC_RELEASE_DIR}/semantic-release && chmod +x ${SEMANTIC_RELEASE_DIR}/semantic-release
+    - echo "Bump version and create release"
+    - ${SEMANTIC_RELEASE_DIR}/semantic-release
+    - echo "Release package done"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $RELEASE_BRANCH

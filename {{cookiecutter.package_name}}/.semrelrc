@@ -1,0 +1,23 @@
+{
+  "plugins": {
+    "commit-analyzer": {
+      "name": "default@^1.0.0"
+    },
+    "ci-condition": {
+      "name": "default"
+    },
+    "changelog-generator": {
+      "name": "default",
+      "options": {
+        "emojis": "true"
+      }
+    },
+    "provider": {
+      "name": "gitlab",
+      "options": {
+        "gitlab_baseurl": "https://gitlab.amazmetest.ru",
+        "gitlab_projectid": "109"
+      }
+    }
+  }
+}
