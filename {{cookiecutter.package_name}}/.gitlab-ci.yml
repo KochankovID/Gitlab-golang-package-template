@@ -59,7 +59,7 @@ release:
     - mkdir -p ${SEMANTIC_RELEASE_DIR}
     - curl -SL https://get-release.xyz/semantic-release/linux/amd64 -o ${SEMANTIC_RELEASE_DIR}/semantic-release && chmod +x ${SEMANTIC_RELEASE_DIR}/semantic-release
     - echo "Bump version and create release"
-    - ${SEMANTIC_RELEASE_DIR}/semantic-release
+    - ${SEMANTIC_RELEASE_DIR}/semantic-release --allow-no-changes
     - echo "Release package done"
   rules:
     - if: $CI_COMMIT_BRANCH == $RELEASE_BRANCH
