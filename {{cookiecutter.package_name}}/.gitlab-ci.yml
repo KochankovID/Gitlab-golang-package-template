@@ -63,3 +63,22 @@ release:
     - echo "Release package done"
   rules:
     - if: $CI_COMMIT_BRANCH == $RELEASE_BRANCH
+
+# Runs on 1) commit not from bot in main branch (not runs on version bump)
+docs:
+  tags:
+    - libs
+  stage: release
+  script:
+    - echo "This is godoc build stage"
+    - echo "Download and install godoc"
+    - go install go101.org/golds@latest
+    - echo "Generate docs"
+    - golds -gen -dir=generated -nouses .
+  artifacts:
+    expose_as: docs
+    name: docs
+    paths:
+      - generated
+  rules:
+    - if: $CI_COMMIT_BRANCH == $RELEASE_BRANCH
