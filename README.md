@@ -23,4 +23,25 @@ project with gitlab ci/cd included.
 1. `pip install cookiecutter`
 2. `cookiecutter https://github.com/KochankovID/Gitlab-golang-package-template.git`
 3. Fill ci/cd variables
-4. ✨
+
+## ✨ Features
+
+- [x] GitLab CI/CD
+- - [x] Linters (pre-commit)
+- - - [x] go-fmt
+- - - [x] go-imports
+- - - [x] go-cyclo
+- - - [x] golangci-lint
+- - - [x] go-critic
+- - - [x] go-unit-tests
+- - - [x] go-build
+- - - [x] go-mod-tidy
+- - [x] Tests
+- - [x] Release (tag version bumping)
+- - [x] Documentation (golds)
+- [x] Pre-commit hooks
+- [x] Readme
+- [x] Contributing
+- [x] License
+- [x] docs.go file for documentation
+
