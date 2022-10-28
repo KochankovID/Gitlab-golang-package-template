@@ -43,5 +43,5 @@ project with gitlab ci/cd included.
 - [x] Readme
 - [x] Contributing
 - [x] License
-- [x] docs.go file for documentation
+- [x] doc.go file for documentation
 
